@@ -1,0 +1,9 @@
+{
+	"name": "adfpracticepavan",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "745ddf21-37fd-4145-802b-7733319b80fd",
+		"tenantId": "f3ebb75d-c643-4dd2-9d1e-1f121f0a8438"
+	}
+}
