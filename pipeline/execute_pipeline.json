@@ -1,0 +1,80 @@
+{
+	"name": "execute_pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_dynamic_passig_array_execute_pipline",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"fileName": {
+							"value": "@createArray('employees.csv','department.csv')",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "childpiplinename",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Execute Pipeline1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "plname",
+					"value": {
+						"value": "@activity('Execute Pipeline1').output.pipelineReturnValue.PIPELINENAME",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "childpipelinerunid",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Execute Pipeline1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "pipelineReturnValue",
+					"setSystemVariable": true
+				}
+			}
+		],
+		"variables": {
+			"plname": {
+				"type": "String"
+			},
+			"plrunid": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}

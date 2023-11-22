@@ -1,28 +1,15 @@
 {
-	"name": "pl_appendvariable_setvariable_with_foreach_activity",
+	"name": "pl_dynamic_passig_array_execute_pipline",
 	"properties": {
 		"activities": [
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "Append variable1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "Append variable2",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@variables('fileNames')",
+						"value": "@pipeline().parameters.fileName",
 						"type": "Expression"
 					},
 					"isSequential": false,
@@ -31,14 +18,7 @@
 						{
 							"name": "Copy_using_foreach_activity",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "Set variable1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -55,7 +35,7 @@
 										"recursive": true,
 										"wildcardFolderPath": "data",
 										"wildcardFileName": {
-											"value": "@variables('filename')",
+											"value": "@item()",
 											"type": "Expression"
 										},
 										"enablePartitionDiscovery": false
@@ -97,57 +77,81 @@
 									"type": "DatasetReference"
 								}
 							]
-						},
-						{
-							"name": "Set variable1",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "filename",
-								"value": {
-									"value": "@item()",
-									"type": "Expression"
-								}
-							}
 						}
 					]
 				}
 			},
 			{
-				"name": "Append variable1",
-				"type": "AppendVariable",
-				"dependsOn": [],
+				"name": "pipeline name Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "fileNames",
-					"value": "department.csv"
+					"variableName": "pipelineReturnValue",
+					"value": [
+						{
+							"key": "PIPELINENAME",
+							"value": {
+								"type": "Expression",
+								"content": "@pipeline().Pipeline"
+							}
+						}
+					],
+					"setSystemVariable": true
 				}
 			},
 			{
-				"name": "Append variable2",
-				"description": "",
-				"type": "AppendVariable",
-				"dependsOn": [],
+				"name": "runid pipeline Set variable2",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "fileNames",
-					"value": "employees.csv"
+					"variableName": "pipelineReturnValue",
+					"value": [
+						{
+							"key": "RUNID",
+							"value": {
+								"type": "Expression",
+								"content": "@pipeline().RunId"
+							}
+						}
+					],
+					"setSystemVariable": true
 				}
 			}
 		],
+		"parameters": {
+			"fileName": {
+				"type": "array"
+			}
+		},
 		"variables": {
-			"fileNames": {
-				"type": "Array"
-			},
-			"filename": {
+			"PIPELINENAME": {
 				"type": "String"
 			},
-			"PIPELINENAME": {
+			"RUNID": {
 				"type": "String"
 			}
 		},
