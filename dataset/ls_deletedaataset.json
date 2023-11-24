@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "data",
+				"folderPath": "data/recursivelydelete",
 				"fileSystem": "samplecontainer"
 			}
 		}
