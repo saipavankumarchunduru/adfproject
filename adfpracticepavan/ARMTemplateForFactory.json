@@ -161,6 +161,202 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Pl_deleteactivity')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Delete1",
+						"type": "Delete",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ls_deletedaataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"logStorageSettings": {
+								"linkedServiceName": {
+									"referenceName": "ls_pavanstorageadls_output",
+									"type": "LinkedServiceReference"
+								},
+								"path": "samplecontainer/output"
+							},
+							"enableLogging": true,
+							"storeSettings": {
+								"type": "AzureBlobFSReadSettings",
+								"recursive": true,
+								"modifiedDatetimeStart": "2023-11-23T15:00:00.000Z",
+								"modifiedDatetimeEnd": "2023-11-24T15:35:00.000Z",
+								"wildcardFileName": "*.txt",
+								"enablePartitionDiscovery": false
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ls_deletedaataset')]",
+				"[concat(variables('factoryId'), '/linkedServices/ls_pavanstorageadls_output')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Pl_deleteactivity_recuricely')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Delete1",
+						"type": "Delete",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ls_deletedaataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"logStorageSettings": {
+								"linkedServiceName": {
+									"referenceName": "ls_pavanstorageadls_output",
+									"type": "LinkedServiceReference"
+								},
+								"path": "samplecontainer/output"
+							},
+							"enableLogging": true,
+							"storeSettings": {
+								"type": "AzureBlobFSReadSettings",
+								"recursive": true,
+								"modifiedDatetimeStart": "2023-11-23T15:00:00.000Z",
+								"modifiedDatetimeEnd": "2023-11-24T15:48:00.000Z",
+								"wildcardFileName": "*.txt",
+								"enablePartitionDiscovery": false
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ls_deletedaataset')]",
+				"[concat(variables('factoryId'), '/linkedServices/ls_pavanstorageadls_output')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/execute_pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Execute Pipeline1",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "pl_dynamic_passig_array_execute_pipline",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"fileName": {
+									"value": "@createArray('employees.csv','department.csv')",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					{
+						"name": "childpiplinename",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Execute Pipeline1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "plname",
+							"value": {
+								"value": "@activity('Execute Pipeline1').output.pipelineReturnValue.PIPELINENAME",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "childpipelinerunid",
+						"type": "SetVariable",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "Execute Pipeline1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "pipelineReturnValue",
+							"setSystemVariable": true
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"plname": {
+						"type": "String"
+					},
+					"plrunid": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pl_dynamic_passig_array_execute_pipline')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/pl_appendvariable_setvariable_with_foreach_activity')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -314,6 +510,180 @@
 						"type": "Array"
 					},
 					"filename": {
+						"type": "String"
+					},
+					"PIPELINENAME": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_datafolder')]",
+				"[concat(variables('factoryId'), '/datasets/ds_employees_output')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_dynamic_passig_array_execute_pipline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.fileName",
+								"type": "Expression"
+							},
+							"isSequential": false,
+							"batchCount": 1,
+							"activities": [
+								{
+									"name": "Copy_using_foreach_activity",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"wildcardFolderPath": "data",
+												"wildcardFileName": {
+													"value": "@item()",
+													"type": "Expression"
+												},
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "ds_datafolder",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "ds_employees_output",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
+						}
+					},
+					{
+						"name": "pipeline name Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "ForEach1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "pipelineReturnValue",
+							"value": [
+								{
+									"key": "PIPELINENAME",
+									"value": {
+										"type": "Expression",
+										"content": "@pipeline().Pipeline"
+									}
+								}
+							],
+							"setSystemVariable": true
+						}
+					},
+					{
+						"name": "runid pipeline Set variable2",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "ForEach1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "pipelineReturnValue",
+							"value": [
+								{
+									"key": "RUNID",
+									"value": {
+										"type": "Expression",
+										"content": "@pipeline().RunId"
+									}
+								}
+							],
+							"setSystemVariable": true
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"fileName": {
+						"type": "array"
+					}
+				},
+				"variables": {
+					"PIPELINENAME": {
+						"type": "String"
+					},
+					"RUNID": {
 						"type": "String"
 					}
 				},
@@ -499,6 +869,29 @@
 						"type": "String"
 					}
 				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_pavanstorageadls_input')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_deletedaataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_pavanstorageadls_input",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "data/recursivelydelete",
+						"fileSystem": "samplecontainer"
+					}
+				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ls_pavanstorageadls_input')]"
