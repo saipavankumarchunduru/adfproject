@@ -1,0 +1,18 @@
+{
+	"name": "ls_deletedaataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_pavanstorageadls_input",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "data",
+				"fileSystem": "samplecontainer"
+			}
+		}
+	}
+}
