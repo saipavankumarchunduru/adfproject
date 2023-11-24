@@ -1,0 +1,71 @@
+{
+	"name": "pl_switchactivity",
+	"properties": {
+		"activities": [
+			{
+				"name": "Switch1",
+				"type": "Switch",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"on": {
+						"value": "@pipeline().parameters.variable1",
+						"type": "Expression"
+					},
+					"cases": [
+						{
+							"value": "A",
+							"activities": [
+								{
+									"name": "a activity",
+									"type": "Wait",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"waitTimeInSeconds": 1
+									}
+								}
+							]
+						},
+						{
+							"value": "B",
+							"activities": [
+								{
+									"name": "b activity",
+									"type": "Wait",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"waitTimeInSeconds": 1
+									}
+								}
+							]
+						}
+					],
+					"defaultActivities": [
+						{
+							"name": "deault activity",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 1
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"variable1": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"A": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
