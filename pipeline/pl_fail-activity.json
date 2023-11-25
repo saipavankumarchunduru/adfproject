@@ -1,5 +1,5 @@
 {
-	"name": "pl_copyactivity_without_fail_and_file_notpresent",
+	"name": "pl_fail-activity",
 	"properties": {
 		"activities": [
 			{
@@ -74,6 +74,25 @@
 				"userProperties": [],
 				"typeProperties": {
 					"waitTimeInSeconds": 1
+				}
+			},
+			{
+				"name": "Fail activity",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "send mail",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": {
+						"value": "@activity('Copy data1').output.error.message",
+						"type": "Expression"
+					}
 				}
 			}
 		],
