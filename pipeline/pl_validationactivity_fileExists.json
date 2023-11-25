@@ -1,5 +1,5 @@
 {
-	"name": "ls_validationactivity_fileExists",
+	"name": "pl_validationactivity_fileExists",
 	"properties": {
 		"activities": [
 			{
@@ -8,6 +8,10 @@
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
+					"dataset": {
+						"referenceName": "employee",
+						"type": "DatasetReference"
+					},
 					"timeout": "0.12:00:00",
 					"sleep": 10
 				}
