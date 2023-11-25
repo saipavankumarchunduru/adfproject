@@ -1,5 +1,5 @@
 {
-	"name": "execute_pipeline",
+	"name": "pl_execute_pipeline",
 	"properties": {
 		"activities": [
 			{
