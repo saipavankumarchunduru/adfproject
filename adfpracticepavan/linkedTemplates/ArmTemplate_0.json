@@ -1085,7 +1085,7 @@
 							{
 								"activity": "send mail",
 								"dependencyConditions": [
-									"Failed"
+									"Completed"
 								]
 							}
 						],
