@@ -153,7 +153,8 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2023-11-22T12:14:51Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/employee')]",
@@ -195,8 +196,8 @@
 							"storeSettings": {
 								"type": "AzureBlobFSReadSettings",
 								"recursive": true,
-								"modifiedDatetimeStart": "2023-11-23T15:00:00.000Z",
-								"modifiedDatetimeEnd": "2023-11-24T15:35:00.000Z",
+								"modifiedDatetimeStart": "2023-11-23T15:00:00Z",
+								"modifiedDatetimeEnd": "2023-11-24T15:35:00Z",
 								"wildcardFileName": "*.txt",
 								"enablePartitionDiscovery": false
 							}
@@ -206,7 +207,8 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2023-11-24T10:28:07Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ls_deletedaataset')]",
@@ -248,8 +250,8 @@
 							"storeSettings": {
 								"type": "AzureBlobFSReadSettings",
 								"recursive": true,
-								"modifiedDatetimeStart": "2023-11-23T15:00:00.000Z",
-								"modifiedDatetimeEnd": "2023-11-24T15:48:00.000Z",
+								"modifiedDatetimeStart": "2023-11-23T15:00:00Z",
+								"modifiedDatetimeEnd": "2023-11-24T15:48:00Z",
 								"wildcardFileName": "*.txt",
 								"enablePartitionDiscovery": false
 							}
@@ -259,7 +261,8 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2023-11-24T10:28:07Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ls_deletedaataset')]",
@@ -350,7 +353,8 @@
 						"type": "String"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2023-11-24T10:28:07Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/pl_dynamic_passig_array_execute_pipline')]"
@@ -516,7 +520,8 @@
 						"type": "String"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2023-11-24T10:28:07Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_datafolder')]",
@@ -687,7 +692,8 @@
 						"type": "String"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2023-11-24T10:28:07Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_datafolder')]",
@@ -737,10 +743,194 @@
 						"type": "string"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2023-11-22T12:14:51Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_azuresqldatabase')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_storedprocedure activity')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "copying from input adls storage to output adls storage",
+						"description": "copying file from adls storage to the output adls storage employee",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "id",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "id",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "salary",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "salary",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "dep",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "dep",
+											"type": "String",
+											"physicalType": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "employee",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_employees_output",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Stored procedure1",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "copying from input adls storage to output adls storage",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[sploggingadfproc]",
+							"storedProcedureParameters": {
+								"adfName": {
+									"value": {
+										"value": "@pipeline().DataFactory",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"pipelineName": {
+									"value": {
+										"value": "@pipeline().Pipeline",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"runid": {
+									"value": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"status": {
+									"value": "success",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "ls_sqlserverpavan",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/employee')]",
+				"[concat(variables('factoryId'), '/datasets/ds_employees_output')]",
+				"[concat(variables('factoryId'), '/linkedServices/ls_sqlserverpavan')]"
 			]
 		},
 		{
@@ -816,7 +1006,8 @@
 						"type": "String"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2023-11-24T13:19:59Z"
 			},
 			"dependsOn": []
 		},
@@ -951,7 +1142,8 @@
 						"type": "String"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2023-11-24T12:14:13Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/employee')]"
@@ -997,7 +1189,8 @@
 						"defaultValue": true
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2023-11-24T11:15:02Z"
 			},
 			"dependsOn": []
 		},
