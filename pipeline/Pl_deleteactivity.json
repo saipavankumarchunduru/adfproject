@@ -30,14 +30,16 @@
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
 						"recursive": true,
-						"modifiedDatetimeStart": "2023-11-23T15:00:00.000Z",
-						"modifiedDatetimeEnd": "2023-11-24T15:35:00.000Z",
+						"modifiedDatetimeStart": "2023-11-23T15:00:00Z",
+						"modifiedDatetimeEnd": "2023-11-24T15:35:00Z",
 						"wildcardFileName": "*.txt",
 						"enablePartitionDiscovery": false
 					}
 				}
 			}
 		],
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2023-11-24T10:28:07Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }
