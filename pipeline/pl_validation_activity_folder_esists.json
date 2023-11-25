@@ -1,5 +1,5 @@
 {
-	"name": "ls_validation_activity_folder_esists",
+	"name": "pl_validation_activity_folder_esists",
 	"properties": {
 		"description": "validation activity is used to check whether a file exists or a folder exits or not.",
 		"activities": [
