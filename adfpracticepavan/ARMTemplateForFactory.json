@@ -438,7 +438,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pl_copyactivity_without_fail')]",
+			"name": "[concat(parameters('factoryName'), '/pl_copyactivity_without_fail_and_file_notpresent')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
