@@ -1,5 +1,5 @@
 {
-	"name": "pl_copyactivity_without_fail",
+	"name": "pl_copyactivity_without_fail_and_file_notpresent",
 	"properties": {
 		"activities": [
 			{
