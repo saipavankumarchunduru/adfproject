@@ -1,0 +1,23 @@
+{
+	"name": "ls_validation_activity_folder_esists",
+	"properties": {
+		"description": "validation activity is used to check whether a file exists or a folder exits or not.",
+		"activities": [
+			{
+				"name": "Validation1",
+				"type": "Validation",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_datafolder",
+						"type": "DatasetReference"
+					},
+					"timeout": "0.12:00:00",
+					"sleep": 10
+				}
+			}
+		],
+		"annotations": []
+	}
+}
