@@ -4,7 +4,7 @@
 		"description": "we will copy the files of all format using binary format",
 		"activities": [
 			{
-				"name": "Copy_list_of_files",
+				"name": "Copy data1",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -50,7 +50,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "employee",
+						"referenceName": "ds_datafolder",
 						"type": "DatasetReference"
 					}
 				],
