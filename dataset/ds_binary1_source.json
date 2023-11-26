@@ -1,0 +1,27 @@
+{
+	"name": "ds_binary1_source",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_pavanstorageadls_input",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"fileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().fileName",
+					"type": "Expression"
+				},
+				"folderPath": "data",
+				"fileSystem": "samplecontainer"
+			}
+		}
+	}
+}
