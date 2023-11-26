@@ -4,7 +4,7 @@
 		"description": "we will copy the files of all format using binary format",
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "Copy_list_of_files",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
